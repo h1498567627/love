@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Love for Zhou Li</title>
+        <style>
+            /* 整体页面样式，让html和body占满整个视口 */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: rgb(0, 0, 0);
+                overflow: hidden;
+            }
+
+            /* 画布占满整个页面 */
+            canvas {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* 包含表白文字的div样式，使其居中显示 */
+            #child {
+                position: absolute;
+                left: 50%;
+                top: 48%;
+                transform: translate(-50%, -50%);
+            }
+
+            h4 {
+                font-family: "STKaiti";
+                font-size: 40px;
+                color: #f584b7;
+                position: relative;
+            }
+        </style>
+    </head>
+
+    <body>
+        <audio id="bgMusic" loop>
+            <source src="https://example.com/your_music.mp3" type="audio/mpeg">
+            <!-- 如果浏览器不支持MP3格式，可以添加其他格式的音频源，如下面这样（示例为ogg格式） -->
+            <source src="https://example.com/your_music.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+        <div id="child">
+            <h4>💗 周洁 💗</h4>
+        </div>
+        <canvas id="pinkboard"></canvas>
+        <script>
+            // 获取canvas元素
+            const canvas = document.getElementById('pinkboard');
+            const ctx = canvas.getContext('2d');
+
+            // 获取音频元素
+            const bgMusic = document.getElementById('bgMusic');
+
+            // 设置canvas尺寸为窗口大小
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+
+            // 要显示的表白文字内容，拆分成字符数组
+            const textToShow = 'I LOVE U'.split('');
+            const fontSize = 16;
+            // 根据canvas宽度和字体大小计算文字列数
+            const columns = Math.floor(canvas.width / fontSize);
+            // 用于记录每列文字的垂直位置，初始化为1（表示从顶部开始）
+            const drops = new Array(columns).fill(1);
+
+            function playMusic() {
+                // 播放背景音乐
+                bgMusic.play();
+            }
+
+            function draw() {
+                // 设置背景半透明填充样式，实现逐渐覆盖的效果（类似动画帧叠加）
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // 设置文字颜色
+                ctx.fillStyle = '#f584b7';
+                ctx.font = `${fontSize}px arial`;
+
+                // 循环处理每一列文字
+                for (let i = 0; i < columns; i++) {
+                    // 随机选取要显示的字符（从textToShow数组中）
+                    const randomChar = textToShow[Math.floor(Math.random() * textToShow.length)];
+                    // 在对应位置绘制文字
+                    ctx.fillText(randomChar, i * fontSize, drops[i] * fontSize);
+
+                    // 判断文字是否超出画布底部或者满足一定概率（用于制造文字下落的随机感）
+                    if (drops[i] * fontSize > canvas.height || Math.random() > 0.95) {
+                        drops[i] = 0;
+                    }
+
+                    drops[i]++;
+                }
+            }
+
+            // 页面加载完成后执行函数，先播放音乐，再启动文字动画效果
+            window.onload = function () {
+                playMusic();
+                setInterval(draw, 33);
+            };
+        </script>
+    </body>
+
+</html>
