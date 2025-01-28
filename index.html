@@ -3,107 +3,434 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Love for Zhou jie</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>烟花特效与灯笼</title>
         <style>
-            /* 整体页面样式，让html和body占满整个视口 */
-            html,
             body {
-                height: 100%;
                 margin: 0;
                 padding: 0;
-                background: rgb(0, 0, 0);
                 overflow: hidden;
+                background-color: #000;
             }
 
-            /* 画布占满整个页面 */
+            /* 烟花相关样式 */
+            .firework {
+                position: absolute;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                pointer-events: none;
+            }
+
+            /* 灯笼相关样式 */
+            .deng-box {
+                position: fixed;
+                top: 10%;
+                left: 5px;
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .deng-box1 {
+                position: fixed;
+                top: 10%;
+                right: 5px;
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .deng {
+                position: relative;
+                width: 80px;
+                height: 60px;
+                margin: 10px 30px;
+                background: rgba(216, 0, 15, 0.8);
+                border-radius: 50% 50%;
+                transform-origin: 50% -70px;
+                animation: swing 3s infinite ease-in-out;
+                box-shadow: -5px 5px 50px 4px rgba(250, 108, 0, 1);
+            }
+
+            .deng:nth-child(2n) {
+                animation: swing 5s infinite ease-in-out;
+            }
+
+            .deng-a {
+                width: 60px;
+                height: 60px;
+                background: rgba(216, 0, 15, 0.1);
+                margin: 8px 6px 6px 6px;
+                border-radius: 50% 50%;
+                border: 2px solid #dc8f03;
+            }
+
+            .deng-b {
+                width: 30px;
+                height: 60px;
+                background: rgba(216, 0, 15, 0.1);
+                margin: -3px 6px 6px 18px;
+                border-radius: 50% 50%;
+                border: 2px solid #dc8f03;
+            }
+
+            .xian {
+                position: absolute;
+                top: -15px;
+                left: 40px;
+                width: 2px;
+                height: 15px;
+                background: #dc8f03;
+            }
+
+            .shui-a {
+                position: relative;
+                width: 4px;
+                height: 15px;
+                margin: -4px 0 0 39px;
+                animation: swing 4s infinite ease-in-out;
+                transform-origin: 50% -30px;
+                background: #ffa500;
+                border-radius: 0 0 4px 4px;
+            }
+
+            .shui-b {
+                position: absolute;
+                top: 11px;
+                left: -2px;
+                width: 8px;
+                height: 8px;
+                background: #dc8f03;
+                border-radius: 50%;
+            }
+
+            .shui-c {
+                position: absolute;
+                top: 14px;
+                left: -2px;
+                width: 8px;
+                height: 25px;
+                background: #ffa500;
+                border-radius: 0 0 0 4px;
+            }
+
+            .deng:before,
+            .deng:after {
+                position: absolute;
+                height: 10px;
+                width: 40px;
+                content: " ";
+                display: block;
+                border: solid 1px #dc8f03;
+                background: linear-gradient(to right, #dc8f03, #ffa500, #dc8f03, #ffa500, #dc8f03);
+            }
+
+            .deng:before {
+                top: -6px;
+                left: 20px;
+                border-radius: 4px 4px 0 0;
+            }
+
+            .deng:after {
+                bottom: -6px;
+                left: 6px;
+                margin-left: 14px;
+                border-radius: 0 0 4px 4px;
+            }
+
+            .deng-t {
+                font-family: 华文行楷, Arial, Lucida Grande, Tahoma, sans-serif;
+                font-size: 2.2rem;
+                color: #dc8f03;
+                font-weight: bold;
+                line-height: 55px;
+                text-align: center;
+            }
+
+            .night.deng-t,
+            .night.deng-box,
+            .night.deng-box1 {
+                background: transparent !important;
+            }
+
+            @keyframes swing {
+                0% {
+                    transform: rotate(-10deg);
+                }
+
+                50% {
+                    transform: rotate(10deg);
+                }
+
+                100% {
+                    transform: rotate(-10deg);
+                }
+            }
+
+            /* 画布样式 */
             canvas {
                 width: 100%;
-                height: 100%;
-            }
-
-            /* 包含表白文字的div样式，使其居中显示 */
-            #child {
-                position: absolute;
-                left: 50%;
-                top: 48%;
-                transform: translate(-50%, -50%);
-            }
-
-            h4 {
-                font-family: "STKaiti";
-                font-size: 40px;
-                color: #f584b7;
-                position: relative;
+                height: auto;
+                display: block;
             }
         </style>
     </head>
 
     <body>
-        <audio id="bgMusic" loop>
-            <source src="https://example.com/your_music.mp3" type="audio/mpeg">
-            <!-- 如果浏览器不支持MP3格式，可以添加其他格式的音频源，如下面这样（示例为ogg格式） -->
-            <source src="https://example.com/your_music.ogg" type="audio/ogg">
-            Your browser does not support the audio element.
-        </audio>
-        <div id="child">
-            <h4>💗 周洁 💗</h4>
+        <!-- 左侧灯笼 -->
+        <div class="deng-box">
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">多</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">喜</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">乐</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
         </div>
-        <canvas id="pinkboard"></canvas>
+
+        <!-- 右侧灯笼 -->
+        <div class="deng-box1">
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">长</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">安</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
+            <div class="deng">
+                <div class="xian"></div>
+                <div class="deng-a">
+                    <div class="deng-b">
+                        <div class="deng-t">宁</div>
+                    </div>
+                </div>
+                <div class="shui shui-a">
+                    <div class="shui-c"></div>
+                    <div class="shui-b"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 烟花特效画布 -->
+        <canvas></canvas>
+
         <script>
-            // 获取canvas元素
-            const canvas = document.getElementById('pinkboard');
+            const canvas = document.querySelector('canvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             const ctx = canvas.getContext('2d');
 
-            // 获取音频元素
-            const bgMusic = document.getElementById('bgMusic');
+            const fireworks = [];
+            const shapes = ['circle', 'star', 'triangle'];
 
-            // 设置canvas尺寸为窗口大小
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-
-            // 要显示的表白文字内容，拆分成字符数组
-            const textToShow = 'I LOVE U'.split('');
-            const fontSize = 16;
-            // 根据canvas宽度和字体大小计算文字列数
-            const columns = Math.floor(canvas.width / fontSize);
-            // 用于记录每列文字的垂直位置，初始化为1（表示从顶部开始）
-            const drops = new Array(columns).fill(1);
-
-            function playMusic() {
-                // 播放背景音乐
-                bgMusic.play();
+            function randomColor() {
+                return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
             }
 
-            function draw() {
-                // 设置背景半透明填充样式，实现逐渐覆盖的效果（类似动画帧叠加）
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                // 设置文字颜色
-                ctx.fillStyle = '#f584b7';
-                ctx.font = `${fontSize}px arial`;
+            function createFirework() {
+                const x = Math.random() * canvas.width;
+                const y = canvas.height;
+                const targetY = Math.random() * canvas.height * 0.3;
+                const color = randomColor();
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const firework = {
+                    x,
+                    y,
+                    targetY,
+                    color,
+                    speed: Math.random() * 8 + 2,
+                    particles: [],
+                    shape,
+                    vx: (Math.random() - 0.5) * 2
+                };
+                fireworks.push(firework);
+            }
 
-                // 循环处理每一列文字
-                for (let i = 0; i < columns; i++) {
-                    // 随机选取要显示的字符（从textToShow数组中）
-                    const randomChar = textToShow[Math.floor(Math.random() * textToShow.length)];
-                    // 在对应位置绘制文字
-                    ctx.fillText(randomChar, i * fontSize, drops[i] * fontSize);
+            function drawCircle(ctx, x, y, color, size) {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-                    // 判断文字是否超出画布底部或者满足一定概率（用于制造文字下落的随机感）
-                    if (drops[i] * fontSize > canvas.height || Math.random() > 0.95) {
-                        drops[i] = 0;
+            function drawStar(ctx, x, y, color, size) {
+                const numPoints = 5;
+                const outerRadius = size;
+                const innerRadius = size / 2;
+                const angle = Math.PI / numPoints;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                for (let i = 0; i < 2 * numPoints; i++) {
+                    const radius = (i % 2 === 0) ? outerRadius : innerRadius;
+                    const currentAngle = i * angle - Math.PI / 2;
+                    const px = x + radius * Math.cos(currentAngle);
+                    const py = y + radius * Math.sin(currentAngle);
+                    if (i === 0) {
+                        ctx.moveTo(px, py);
+                    } else {
+                        ctx.lineTo(px, py);
                     }
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
 
-                    drops[i]++;
+            function drawTriangle(ctx, x, y, color, size) {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(x, y - size);
+                ctx.lineTo(x + size, y + size);
+                ctx.lineTo(x - size, y + size);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            function drawShape(ctx, x, y, shape, color, size) {
+                switch (shape) {
+                    case 'circle':
+                        drawCircle(ctx, x, y, color, size);
+                        break;
+                    case 'star':
+                        drawStar(ctx, x, y, color, size);
+                        break;
+                    case 'triangle':
+                        drawTriangle(ctx, x, y, color, size);
+                        break;
                 }
             }
 
-            // 页面加载完成后执行函数，先播放音乐，再启动文字动画效果
-            window.onload = function () {
-                playMusic();
-                setInterval(draw, 33);
-            };
+            function updateFireworks() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = fireworks.length - 1; i >= 0; i--) {
+                    const firework = fireworks[i];
+                    if (firework.y > firework.targetY) {
+                        firework.y -= firework.speed;
+                        firework.x += firework.vx;
+                        ctx.beginPath();
+                        ctx.moveTo(firework.x, firework.y + firework.speed);
+                        ctx.lineTo(firework.x, firework.y);
+                        ctx.strokeStyle = firework.color;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                        drawShape(ctx, firework.x, firework.y, 'circle', firework.color, 3);
+                    } else {
+                        if (firework.particles.length === 0) {
+                            for (let j = 0; j < 60; j++) {
+                                const angle = Math.random() * Math.PI * 2;
+                                const speed = Math.random() * 5 + 2;
+                                const particle = {
+                                    x: firework.x,
+                                    y: firework.y,
+                                    vx: Math.cos(angle) * speed,
+                                    vy: Math.sin(angle) * speed,
+                                    color: firework.color,
+                                    life: 30,
+                                    shape: firework.shape
+                                };
+                                firework.particles.push(particle);
+                            }
+                        }
+                        for (let j = firework.particles.length - 1; j >= 0; j--) {
+                            const particle = firework.particles[j];
+                            particle.x += particle.vx;
+                            particle.y += particle.vy;
+                            particle.life--;
+                            if (particle.life > 0) {
+                                const alpha = particle.life / 30;
+                                const particleColor = `rgba(${parseInt(particle.color.slice(1, 3), 16)}, ${parseInt(particle.color.slice(3, 5), 16)}, ${parseInt(particle.color.slice(5, 7), 16)}, ${alpha})`;
+                                drawShape(ctx, particle.x, particle.y, particle.shape, particleColor, 2);
+                            } else {
+                                firework.particles.splice(j, 1);
+                            }
+                        }
+                        if (firework.particles.length === 0) {
+                            fireworks.splice(i, 1);
+                        }
+                    }
+                }
+                requestAnimationFrame(updateFireworks);
+            }
+
+            // 页面加载初期创建多个烟花
+            for (let i = 0; i < 100; i++) {
+                createFirework();
+            }
+
+            setInterval(createFirework, 80);
+            updateFireworks();
+
+            canvas.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const x = touch.clientX;
+                const y = canvas.height;
+                const targetY = Math.random() * canvas.height * 0.3;
+                const color = randomColor();
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const firework = {
+                    x,
+                    y,
+                    targetY,
+                    color,
+                    speed: Math.random() * 8 + 2,
+                    particles: [],
+                    shape,
+                    vx: (Math.random() - 0.5) * 2
+                };
+                fireworks.push(firework);
+            });
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
         </script>
     </body>
 
