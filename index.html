@@ -1,435 +1,311 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>除夕快乐</title>
+        <title>💖 周洁 💖</title>
         <style>
             body {
+                background: #ff99cc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
                 margin: 0;
-                padding: 0;
+                font-family: '微软雅黑', cursive;
                 overflow: hidden;
-                background-color: #000;
-            }
-
-            /* 烟花相关样式 */
-            .firework {
-                position: absolute;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                pointer-events: none;
-            }
-
-            /* 灯笼相关样式 */
-            .deng-box {
-                position: fixed;
-                top: 10%;
-                left: 5px;
-                z-index: 999;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .deng-box1 {
-                position: fixed;
-                top: 10%;
-                right: 5px;
-                z-index: 999;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .deng {
                 position: relative;
-                width: 80px;
-                height: 60px;
-                margin: 10px 30px;
-                background: rgba(216, 0, 15, 0.8);
-                border-radius: 50% 50%;
-                transform-origin: 50% -70px;
-                animation: swing 3s infinite ease-in-out;
-                box-shadow: -5px 5px 50px 4px rgba(250, 108, 0, 1);
             }
 
-            .deng:nth-child(2n) {
-                animation: swing 5s infinite ease-in-out;
-            }
-
-            .deng-a {
-                width: 60px;
-                height: 60px;
-                background: rgba(216, 0, 15, 0.1);
-                margin: 8px 6px 6px 6px;
-                border-radius: 50% 50%;
-                border: 2px solid #dc8f03;
-            }
-
-            .deng-b {
-                width: 30px;
-                height: 60px;
-                background: rgba(216, 0, 15, 0.1);
-                margin: -3px 6px 6px 18px;
-                border-radius: 50% 50%;
-                border: 2px solid #dc8f03;
-            }
-
-            .xian {
-                position: absolute;
-                top: -15px;
-                left: 40px;
-                width: 2px;
-                height: 15px;
-                background: #dc8f03;
-            }
-
-            .shui-a {
-                position: relative;
-                width: 4px;
-                height: 15px;
-                margin: -4px 0 0 39px;
-                animation: swing 4s infinite ease-in-out;
-                transform-origin: 50% -30px;
-                background: #ffa500;
-                border-radius: 0 0 4px 4px;
-            }
-
-            .shui-b {
-                position: absolute;
-                top: 11px;
-                left: -2px;
-                width: 8px;
-                height: 8px;
-                background: #dc8f03;
-                border-radius: 50%;
-            }
-
-            .shui-c {
-                position: absolute;
-                top: 14px;
-                left: -2px;
-                width: 8px;
-                height: 25px;
-                background: #ffa500;
-                border-radius: 0 0 0 4px;
-            }
-
-            .deng:before,
-            .deng:after {
-                position: absolute;
-                height: 10px;
-                width: 40px;
-                content: " ";
-                display: block;
-                border: solid 1px #dc8f03;
-                background: linear-gradient(to right, #dc8f03, #ffa500, #dc8f03, #ffa500, #dc8f03);
-            }
-
-            .deng:before {
-                top: -6px;
-                left: 20px;
-                border-radius: 4px 4px 0 0;
-            }
-
-            .deng:after {
-                bottom: -6px;
-                left: 6px;
-                margin-left: 14px;
-                border-radius: 0 0 4px 4px;
-            }
-
-            .deng-t {
-                font-family: 华文行楷, Arial, Lucida Grande, Tahoma, sans-serif;
-                font-size: 2.2rem;
-                color: #dc8f03;
-                font-weight: bold;
-                line-height: 55px;
+            .container {
                 text-align: center;
+                position: relative;
+                z-index: 2;
             }
 
-            .night.deng-t,
-            .night.deng-box,
-            .night.deng-box1 {
-                background: transparent !important;
+            h1 {
+                color: #ff0066;
+                font-size: 4em;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                animation: heartbeat 1.5s infinite;
+                margin-bottom: 30px;
             }
 
-            @keyframes swing {
+            .hearts {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .heart {
+                position: absolute;
+                color: #ff0066;
+                animation: float 6s infinite linear;
+                opacity: 0;
+                user-select: none;
+            }
+
+            button.action-btn {
+                padding: 15px 40px;
+                font-size: 1.5em;
+                margin: 20px;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: all 0.3s;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            #yes {
+                background: #ff0066;
+                color: white;
+            }
+
+            #no {
+                background: #666;
+                color: white;
+            }
+
+            button:hover {
+                transform: scale(1.1);
+                box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            /* 音乐控制区域 */
+            .music-controls {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 10px 15px;
+                border-radius: 30px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            #musicToggle {
+                background: #ff0066;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            #volume {
+                width: 100px;
+                accent-color: #ff0066;
+            }
+
+            @keyframes heartbeat {
                 0% {
-                    transform: rotate(-10deg);
+                    transform: scale(1);
                 }
 
                 50% {
-                    transform: rotate(10deg);
+                    transform: scale(1.1);
                 }
 
                 100% {
-                    transform: rotate(-10deg);
+                    transform: scale(1);
                 }
             }
 
-            /* 画布样式 */
-            canvas {
-                width: 100%;
-                height: auto;
-                display: block;
+            @keyframes float {
+                0% {
+                    transform: translateY(100vh) translateX(-50%);
+                    opacity: 1;
+                }
+
+                100% {
+                    transform: translateY(-100vh) translateX(50%);
+                    opacity: 0;
+                }
+            }
+
+            /* 移动端优化 */
+            @media (max-width: 600px) {
+                h1 {
+                    font-size: 2.5em;
+                }
+
+                button.action-btn {
+                    padding: 12px 30px;
+                    font-size: 1.2em;
+                }
+
+                .music-controls {
+                    top: 10px;
+                    right: 10px;
+                    padding: 8px 12px;
+                }
             }
         </style>
     </head>
 
     <body>
-        <!-- 左侧灯笼 -->
-        <div class="deng-box">
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">多</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">喜</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">乐</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
+        <!-- 音乐控制 -->
+        <div class="music-controls">
+            <button id="musicToggle" onclick="toggleMusic()">🎵 播放音乐</button>
+            <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
         </div>
 
-        <!-- 右侧灯笼 -->
-        <div class="deng-box1">
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">长</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">安</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
-            <div class="deng">
-                <div class="xian"></div>
-                <div class="deng-a">
-                    <div class="deng-b">
-                        <div class="deng-t">宁</div>
-                    </div>
-                </div>
-                <div class="shui shui-a">
-                    <div class="shui-c"></div>
-                    <div class="shui-b"></div>
-                </div>
-            </div>
-        </div>
+        <!-- 爱心背景 -->
+        <div class="hearts" id="hearts"></div>
 
-        <!-- 烟花特效画布 -->
-        <canvas></canvas>
+        <!-- 主要内容 -->
+        <div class="container">
+            <h1>💘Z Love J💘</h1>
+            <p style="font-size: 1.5em; color: #660033; margin-bottom: 40px;">你愿意成为我的另一半吗？</p>
+            <button id="yes" class="action-btn" onclick="handleResponse(true)">我愿意！</button>
+            <button id="no" class="action-btn" onmouseover="moveButton()"
+                onclick="handleResponse(false)">再考虑下...</button>
+        </div>
 
         <script>
-            const canvas = document.querySelector('canvas');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const ctx = canvas.getContext('2d');
+            // 音乐播放系统
+            let audio = null;
+            let isMusicPlaying = false;
 
-            const fireworks = [];
-            const shapes = ['circle', 'star', 'triangle'];
+            function initMusic() {
+                try {
+                    // 创建音频对象（支持多格式）
+                    audio = new Audio();
+                    const source = document.createElement('source');
+                    source.src = 'music.mp3';
+                    source.type = 'audio/mpeg';
+                    audio.appendChild(source);
 
-            function randomColor() {
-                return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-            }
+                    // 备用格式
+                    const fallbackSource = document.createElement('source');
+                    fallbackSource.src = 'music.ogg';
+                    fallbackSource.type = 'audio/ogg';
+                    audio.appendChild(fallbackSource);
 
-            function createFirework() {
-                const x = Math.random() * canvas.width;
-                const y = canvas.height;
-                const targetY = Math.random() * canvas.height * 0.3;
-                const color = randomColor();
-                const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                const firework = {
-                    x,
-                    y,
-                    targetY,
-                    color,
-                    speed: Math.random() * 8 + 2,
-                    particles: [],
-                    shape,
-                    vx: (Math.random() - 0.5) * 2
-                };
-                fireworks.push(firework);
-            }
+                    audio.loop = true;
+                    audio.volume = 0.5;
 
-            function drawCircle(ctx, x, y, color, size) {
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+                    // 音量控制
+                    document.getElementById('volume').addEventListener('input', (e) => {
+                        audio.volume = e.target.value;
+                    });
 
-            function drawStar(ctx, x, y, color, size) {
-                const numPoints = 5;
-                const outerRadius = size;
-                const innerRadius = size / 2;
-                const angle = Math.PI / numPoints;
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                for (let i = 0; i < 2 * numPoints; i++) {
-                    const radius = (i % 2 === 0) ? outerRadius : innerRadius;
-                    const currentAngle = i * angle - Math.PI / 2;
-                    const px = x + radius * Math.cos(currentAngle);
-                    const py = y + radius * Math.sin(currentAngle);
-                    if (i === 0) {
-                        ctx.moveTo(px, py);
-                    } else {
-                        ctx.lineTo(px, py);
-                    }
-                }
-                ctx.closePath();
-                ctx.fill();
-            }
+                    // 事件监听
+                    audio.addEventListener('loadeddata', () => {
+                        document.getElementById('musicToggle').disabled = false;
+                    });
 
-            function drawTriangle(ctx, x, y, color, size) {
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                ctx.moveTo(x, y - size);
-                ctx.lineTo(x + size, y + size);
-                ctx.lineTo(x - size, y + size);
-                ctx.closePath();
-                ctx.fill();
-            }
+                    audio.addEventListener('error', (e) => {
+                        console.error('音乐加载失败:', e.target.error);
+                        document.querySelector('.music-controls').innerHTML = '⚠️ 音乐加载失败';
+                    });
 
-            function drawShape(ctx, x, y, shape, color, size) {
-                switch (shape) {
-                    case 'circle':
-                        drawCircle(ctx, x, y, color, size);
-                        break;
-                    case 'star':
-                        drawStar(ctx, x, y, color, size);
-                        break;
-                    case 'triangle':
-                        drawTriangle(ctx, x, y, color, size);
-                        break;
+                    // 自动播放处理
+                    document.addEventListener('click', function firstPlay() {
+                        audio.play().catch(() => {
+                            document.getElementById('musicToggle').textContent = '▶️ 点击播放';
+                        });
+                        document.removeEventListener('click', firstPlay);
+                    });
+
+                } catch (error) {
+                    console.error('音乐初始化失败:', error);
+                    document.querySelector('.music-controls').style.display = 'none';
                 }
             }
 
-            function updateFireworks() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = fireworks.length - 1; i >= 0; i--) {
-                    const firework = fireworks[i];
-                    if (firework.y > firework.targetY) {
-                        firework.y -= firework.speed;
-                        firework.x += firework.vx;
-                        ctx.beginPath();
-                        ctx.moveTo(firework.x, firework.y + firework.speed);
-                        ctx.lineTo(firework.x, firework.y);
-                        ctx.strokeStyle = firework.color;
-                        ctx.lineWidth = 2;
-                        ctx.stroke();
-                        drawShape(ctx, firework.x, firework.y, 'circle', firework.color, 3);
-                    } else {
-                        if (firework.particles.length === 0) {
-                            for (let j = 0; j < 60; j++) {
-                                const angle = Math.random() * Math.PI * 2;
-                                const speed = Math.random() * 5 + 2;
-                                const particle = {
-                                    x: firework.x,
-                                    y: firework.y,
-                                    vx: Math.cos(angle) * speed,
-                                    vy: Math.sin(angle) * speed,
-                                    color: firework.color,
-                                    life: 30,
-                                    shape: firework.shape
-                                };
-                                firework.particles.push(particle);
-                            }
-                        }
-                        for (let j = firework.particles.length - 1; j >= 0; j--) {
-                            const particle = firework.particles[j];
-                            particle.x += particle.vx;
-                            particle.y += particle.vy;
-                            particle.life--;
-                            if (particle.life > 0) {
-                                const alpha = particle.life / 30;
-                                const particleColor = `rgba(${parseInt(particle.color.slice(1, 3), 16)}, ${parseInt(particle.color.slice(3, 5), 16)}, ${parseInt(particle.color.slice(5, 7), 16)}, ${alpha})`;
-                                drawShape(ctx, particle.x, particle.y, particle.shape, particleColor, 2);
-                            } else {
-                                firework.particles.splice(j, 1);
-                            }
-                        }
-                        if (firework.particles.length === 0) {
-                            fireworks.splice(i, 1);
-                        }
-                    }
+            function toggleMusic() {
+                if (!isMusicPlaying) {
+                    audio.play();
+                    isMusicPlaying = true;
+                    document.getElementById('musicToggle').innerHTML = '⏸️ 暂停音乐';
+                } else {
+                    audio.pause();
+                    isMusicPlaying = false;
+                    document.getElementById('musicToggle').innerHTML = '▶️ 播放音乐';
                 }
-                requestAnimationFrame(updateFireworks);
             }
 
-            // 页面加载初期创建多个烟花
-            for (let i = 0; i < 100; i++) {
-                createFirework();
+            // 爱心生成系统
+            function createHearts() {
+                const heartsContainer = document.getElementById('hearts');
+                for (let i = 0; i < 25; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 6 + 's';
+                    heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+                    heartsContainer.appendChild(heart);
+                }
             }
 
-            setInterval(createFirework, 80);
-            updateFireworks();
+            // 按钮交互系统
+            function handleResponse(answer) {
+                if (answer) {
+                    alert('🎉 这真是我生命中最美好的一天！💖');
+                    document.body.style.background = '#ff66b3';
+                    document.querySelector('h1').innerHTML = '💞 我爱你！💞';
+                    document.getElementById('no').style.display = 'none';
+                    // 触发爱心雨
+                    createHearts();
+                    createHearts();
+                } else {
+                    alert('🥺 我会继续用心打动你...');
+                    moveButton();
+                }
+            }
 
-            canvas.addEventListener('touchstart', function (e) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                const x = touch.clientX;
-                const y = canvas.height;
-                const targetY = Math.random() * canvas.height * 0.3;
-                const color = randomColor();
-                const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                const firework = {
-                    x,
-                    y,
-                    targetY,
-                    color,
-                    speed: Math.random() * 8 + 2,
-                    particles: [],
-                    shape,
-                    vx: (Math.random() - 0.5) * 2
-                };
-                fireworks.push(firework);
+            function moveButton() {
+                const noBtn = document.getElementById('no');
+                const maxX = window.innerWidth - noBtn.offsetWidth;
+                const maxY = window.innerHeight - noBtn.offsetHeight;
+                const newX = Math.random() * maxX;
+                const newY = Math.random() * maxY;
+
+                noBtn.style.transition = 'all 0.5s ease-out';
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+
+                // 添加晃动动画
+                setTimeout(() => {
+                    noBtn.style.transition = '';
+                }, 500);
+            }
+
+            // 初始化系统
+            window.addEventListener('load', () => {
+                initMusic();
+                createHearts();
+
+                // 触摸设备优化
+                if ('ontouchstart' in window) {
+                    document.getElementById('no').addEventListener('touchstart', moveButton);
+                }
             });
 
-            window.addEventListener('resize', function () {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+            // 点击生成爱心
+            document.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.style.left = e.clientX + 'px';
+                    heart.style.top = e.clientY + 'px';
+                    heart.style.animation = 'float 3s linear';
+                    heart.innerHTML = '💖';
+                    document.getElementById('hearts').appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 3000);
+                }
             });
         </script>
     </body>
